@@ -4,8 +4,14 @@ const int INFRARED_PIN = 11;
 IRrecv irrecv(INFRARED_PIN);
 decode_results results;
 
-const int POWER_PIN = 2;     // the number of the power pushbutton pin
-const int MIMIC_PIN = 3;     // the number of the mimic pushbutton pin
+const int POWER_PIN = 2;        // the number of the power pushbutton pin
+const int MIMIC_PIN = 3;        // the number of the mimic pushbutton pin
+const int CHANNEL_UP_PIN = 4;   // the number of the channel up pushbutton pin
+const int CHANNEL_DOWN_PIN = 5; // the number of the channel down pushbutton pin
+const int CHANNEL_FAV_PIN = 6;  // the number of the channel favorite pushbutton pin
+const int VOLUME_UP_PIN = 7;    // the number of the volume up pushbutton pin
+const int VOLUME_DOWN_PIN = 8;  // the number of the volume down pushbutton pin
+const int VOLUME_FAV_PIN = 9;   // the number of the volume favorite pushbutton pin
 
 const int LED_PIN =  13;      // the number of the LED pin
 
@@ -33,8 +39,7 @@ void setup() {
     pinMode(LED_PIN, OUTPUT);
 
     // Initialize the pushbuttons as Input
-    pinMode(POWER_PIN, INPUT);
-    pinMode(MIMIC_PIN, INPUT);
+    initButtons();
   
     states = {0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -54,6 +59,31 @@ void loop(){
     digitalWrite(ledPin, LOW);
 
     handleButton(POWER_BUTTON);
+    handleButton(CHANNEL_UP_BUTTON);
+    handleButton(CHANNEL_DOWN_BUTTON);
+    handleButton(VOLUME_UP_BUTTON);
+    handleButton(VOLUME_DOWN_BUTTON);
+
+    handleMimicButton();
+
+    delay(300);
+
+}
+
+void initButtons() {
+
+    pinMode(POWER_PIN, INPUT);
+    pinMode(MIMIC_PIN, INPUT);
+    pinMode(CHANNEL_UP_PIN, INPUT);
+    pinMode(CHANNEL_DOWN_PIN, INPUT);
+    pinMode(CHANNEL_FAV_PIN, INPUT);
+    pinMode(VOLUME_UP_PIN, INPUT);
+    pinMode(VOLUME_DOWN_PIN, INPUT);
+    pinMode(VOLUME_FAV_PIN, INPUT);
+
+}
+
+void handleMimicButton() {
 
     if (state[MIMIC_BUTTON] == HIGH) {
         
@@ -72,8 +102,6 @@ void loop(){
         Serial.println("Signal Received");
 
     }
-
-    delay(300);
 
 }
 
